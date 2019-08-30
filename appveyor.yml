@@ -1,4 +1,4 @@
-# https://packaging.python.org/guides/supporting-windows-using-appveyor/
+# https://packaging.python.org/guides/supporting-windows-using-appveyor/ 
 environment:
   matrix:
     # For Python versions available on Appveyor, see
