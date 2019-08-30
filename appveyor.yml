@@ -27,8 +27,7 @@ install:
 before_build: # We're still in %home%
   - cmd: mkdir C:\projects\opencv\build
   - cmd: cd C:\projects\opencv\opencv
-  - cmd: CMAKE_OPTIONS='-DBUILD_PERF_TESTS:BOOL=OFF -DBUILD_TESTS:BOOL=OFF -DBUILD_DOCS:BOOL=OFF  -DWITH_CUDA:BOOL=OFF -DBUILD_EXAMPLES:BOOL=OFF -DINSTALL_CREATE_DISTRIB=ON'
-  - cmd: '%cmake% -G "Visual Studio 15 2017" $CMAKE_OPTIONS ..\opencv'
+  - cmd: '%cmake% -G "Visual Studio 15 2017" -DBUILD_PERF_TESTS:BOOL=OFF -DBUILD_TESTS:BOOL=OFF -DBUILD_DOCS:BOOL=OFF  -DWITH_CUDA:BOOL=OFF -DBUILD_EXAMPLES:BOOL=OFF -DINSTALL_CREATE_DISTRIB=ON ..\opencv'
   - cmd: cd %home%
   - cmd: mkdir build
   - cmd: cd build
