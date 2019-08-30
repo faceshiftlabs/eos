@@ -14,16 +14,25 @@ install:
   - ps: wget https://cmake.org/files/v3.10/cmake-3.10.1-win64-x64.zip -OutFile cmake.zip
   - cmd: 7z x cmake.zip -o"C:\projects" -y > nul # will extract to cmake-3.10.1-win64-x64\
   - cmd: '%cmake% --version'
+  #  # Get OpenCV (my pre-built binaries of 3.3.0 for VS2017.3):
+  #  - ps: wget "https://drive.google.com/uc?export=download&id=1SZpZ4AnEeTKMqFE-rHWuO6XyrzbaiSIx" -OutFile opencv-3.4.0_vc19.12.25834_release.rar
+  #  - cmd: mkdir C:\projects\opencv
+  #  - cmd: 7z x opencv-3.4.0_vc19.12.25834_release.rar -o"C:\projects\opencv" -y > nul
   # Get OpenCV (my pre-built binaries of 3.3.0 for VS2017.3):
-  - ps: wget "https://drive.google.com/uc?export=download&id=1SZpZ4AnEeTKMqFE-rHWuO6XyrzbaiSIx" -OutFile opencv-3.4.0_vc19.12.25834_release.rar
+  - ps: wget "https://github.com/opencv/opencv/archive/3.4.0.zip" -OutFile opencv-3.4.0.zip
   - cmd: mkdir C:\projects\opencv
-  - cmd: 7z x opencv-3.4.0_vc19.12.25834_release.rar -o"C:\projects\opencv" -y > nul
+  - cmd: 7z x /opencv-3.4.0.zip -o"C:\projects\opencv\opencv" -y > nul
   # Using Boost 1.64.0 from AppVeyor (C:\Libraries\boost_1_64_0)
 
 before_build: # We're still in %home%
+  - cmd: mkdir C:\projects\opencv\build
+  - cmd: cd C:\projects\opencv\opencv
+  - cmd: CMAKE_OPTIONS='-DBUILD_PERF_TESTS:BOOL=OFF -DBUILD_TESTS:BOOL=OFF -DBUILD_DOCS:BOOL=OFF  -DWITH_CUDA:BOOL=OFF -DBUILD_EXAMPLES:BOOL=OFF -DINSTALL_CREATE_DISTRIB=ON'
+  - cmd: '%cmake% -G "Visual Studio 15 2017" $CMAKE_OPTIONS ..\opencv'
+  - cmd: cd %home%
   - cmd: mkdir build
   - cmd: cd build
-  - cmd: '%cmake% -G "Visual Studio 15 2017" -DOpenCV_DIR=C:\projects\opencv -DBOOST_ROOT=C:\Libraries\boost_1_64_0 -DBOOST_LIBRARYDIR=C:\Libraries\boost_1_64_0\lib64-msvc-14.0 -DCMAKE_INSTALL_PREFIX=..\install -DEOS_BUILD_EXAMPLES=on -DEOS_BUILD_UTILS=on -DEOS_GENERATE_PYTHON_BINDINGS=on -DPYTHON_EXECUTABLE:path=C:\Python36\python.exe ..\eos'
+  - cmd: '%cmake% -G "Visual Studio 15 2017" -DOpenCV_DIR=C:\projects\opencv\build -DBOOST_ROOT=C:\Libraries\boost_1_64_0 -DBOOST_LIBRARYDIR=C:\Libraries\boost_1_64_0\lib64-msvc-14.0 -DCMAKE_INSTALL_PREFIX=..\install -DEOS_BUILD_EXAMPLES=on -DEOS_BUILD_UTILS=on -DEOS_GENERATE_PYTHON_BINDINGS=on -DPYTHON_EXECUTABLE:path=C:\Python36\python.exe ..\eos'
 
 build:
   project: C:\projects\build\eos.sln
