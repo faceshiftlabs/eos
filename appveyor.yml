@@ -20,7 +20,7 @@ environment:
 
 version: '{branch}-{build}'
 
-#os: Visual Studio 2017
+os: Visual Studio 2017
 
 install:
   # We need wheel installed to build wheels
