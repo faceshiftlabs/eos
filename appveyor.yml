@@ -21,7 +21,7 @@ install:
   # Get OpenCV (my pre-built binaries of 3.3.0 for VS2017.3):
   - ps: wget "https://github.com/opencv/opencv/archive/3.4.0.zip" -OutFile opencv-3.4.0.zip
   - cmd: mkdir C:\projects\opencv
-  - cmd: 7z x /opencv-3.4.0.zip -o"C:\projects\opencv\opencv" -y > nul
+  - cmd: 7z x opencv-3.4.0.zip -o"C:\projects\opencv\opencv" -y > nul
   # Using Boost 1.64.0 from AppVeyor (C:\Libraries\boost_1_64_0)
 
 before_build: # We're still in %home%
